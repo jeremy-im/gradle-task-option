@@ -5,11 +5,9 @@ open class TaskWithOption : DefaultTask() {
 }
 
 tasks.register("doit", TaskWithOption::class) {
-    extra.set("flagWas", flag)
+    val flagWas = flag
     doFirst {
-        val flagWas: Boolean by extra
-        if (flag != flagWas)
-            throw GradleException("flag was $flagWas at config, but is now $flag")
+        check(flagWas == flag) { "flag was $flagWas, but is now $flag" }
     }
 }
 
